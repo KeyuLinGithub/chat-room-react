@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-
 import './App.css';
 import * as firebase from 'firebase';
 import { RoomList } from './components/RoomList.js';
 import { MessageList } from './components/MessageList.js';
+import { User } from './components/User.js';
 
 // Initialize Firebase
   var config = {
@@ -19,8 +19,15 @@ import { MessageList } from './components/MessageList.js';
 class App extends Component {
   constructor(props){
     super(props);
-    this.state={activeRoom:""};
+    this.state={
+      activeRoom:"",
+      user: null
+    };
     this.activeRoom=this.activeRoom.bind(this);
+    this.setUser=this.setUser.bind(this);
+  }
+  setUser(theUser){
+    this.setState({user: theUser});
   }
   activeRoom(theRoom){
     this.setState({activeRoom: theRoom})
@@ -29,6 +36,7 @@ class App extends Component {
     const current=this.state.activeRoom;
     return (
       <div className="App">
+        <User firebase={firebase} setUser={this.setUser} />
         <h1>Chat Rooms</h1>
         <RoomList firebase={firebase} activeRoom={this.activeRoom}/>
         <h2>{this.state.activeRoom.name || "Enter a chat room"}</h2>
