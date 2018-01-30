@@ -23,7 +23,9 @@ export class RoomList extends Component {
 
     this.setState({ title: "" });
   }
-
+  selectRoom(room,e){
+    this.props.activeRoom(room);
+  }
  componentDidMount() {
      this.roomsRef.on('child_added', snapshot => {
        const room = snapshot.val();
@@ -39,7 +41,7 @@ export class RoomList extends Component {
        </form>
      );
    const roomList = this.state.rooms.map((room) =>
-       <li key={room.key}>{room.name}</li>
+       <li key={room.key} onClick={(e) => this.selectRoom(room,e)}>{room.name}</li>
      );
    return(
      <div>
