@@ -11,17 +11,17 @@ export class User extends Component {
     const provider = new this.props.firebase.auth.GoogleAuthProvider();
     this.props.firebase.auth().signInWithPopup(provider).then((result) =>{
       const user=result.user;
-      this.props.setUser(user);
+      this.props.setUser(user.displayName);
     });
   }
   signOut(){
     this.props.firebase.auth().signOut().then(() => {
-      this.props.setUser(null);
+      this.props.setUser("");
     });
   }
   componentDidMount(){
     this.props.firebase.auth().onAuthStateChanged(user => {
-      this.props.setUser(user);
+      //this.props.setUser(user.displayName);
     });
   }
   render(){
@@ -29,6 +29,7 @@ export class User extends Component {
       <div>
          <button onClick={this.signIn}>Sign In</button>
          <button onClick={this.signOut}>Sign Out</button>
+         <h6>Current User: {this.props.theU}</h6>
       </div>
     )
   }
